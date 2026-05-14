@@ -1,21 +1,25 @@
 const postService = require('../services/posts.service');
 
 /**
- * @desc    Get all posts
+ * @desc    Get all posts (with populated author)
  * @route   GET /api/v1/posts
  * @access  Public
  */
 const getAllPosts = async (req, res) => {
   try {
     const posts = await postService.getAllPosts();
-    res.status(200).json({ success: true, count: posts.length, data: posts });
+    res.status(200).json({
+      success: true,
+      count: posts.length,
+      data: posts,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
 /**
- * @desc    Get a single post by ID
+ * @desc    Get a single post by ID (with populated author)
  * @route   GET /api/v1/posts/:id
  * @access  Public
  */
@@ -35,6 +39,7 @@ const getPostById = async (req, res) => {
  * @desc    Create a new post
  * @route   POST /api/v1/posts
  * @access  Public
+ * @body    { title: string, content: string, author: ObjectId }
  */
 const createPost = async (req, res) => {
   try {
@@ -73,7 +78,11 @@ const deletePost = async (req, res) => {
     if (!post) {
       return res.status(404).json({ success: false, message: 'Post not found' });
     }
-    res.status(200).json({ success: true, message: 'Post deleted successfully', data: {} });
+    res.status(200).json({
+      success: true,
+      message: 'Post deleted successfully',
+      data: {},
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
