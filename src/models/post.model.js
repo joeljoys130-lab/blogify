@@ -11,6 +11,7 @@ const postSchema = new mongoose.Schema(
     content: {
       type: String,
       required: [true, 'Content is required'],
+      trim: true,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +19,10 @@ const postSchema = new mongoose.Schema(
       required: [true, 'Author is required'],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
 const Post = mongoose.model('Post', postSchema);
